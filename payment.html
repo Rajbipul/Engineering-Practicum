@@ -21,7 +21,7 @@
 <body>
     <div class="container">
         <h2>Payment Details</h2>
-        <p><strong>Total Amount:</strong> $<span id="total-price"></span></p>
+        <p><strong>Total Amount:</strong> Rs <span id="total-price"></span></p>
 
         <!-- Payment Option Buttons -->
         <div class="payment-options">
@@ -44,7 +44,7 @@
             qrcodeContainer.style.display = "flex";  // Show the QR code div
 
             if (!qrcodeContainer.hasChildNodes()) {  // Generate QR code only once
-                const upiUrl = `upi://pay?pa=example@upi&pn=VendingMachine&am=${totalPrice}&cu=INR`; // Replace example@upi with actual UPI ID
+                const upiUrl = `upi://pay?pa=9341317998@yapl&pn=VendingMachine&am=${totalPrice}&cu=INR`; // Replace example@upi with actual UPI ID
                 new QRCode(qrcodeContainer, {
                     text: upiUrl,
                     width: 200,
