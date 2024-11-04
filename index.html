@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vending Machine Payment</title>
+    <style>
+        body { font-family: Arial, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; background-color: #f5f5f5; margin: 0; }
+        .container { width: 400px; padding: 20px; background: white; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); }
+        h2 { color: #333; }
+        label { display: block; margin: 10px 0 5px; color: #555; }
+        .product-row { display: flex; align-items: center; margin: 10px 0; padding: 10px; border: 1px solid #ddd; border-radius: 5px; }
+        .product-name, .product-price, .product-quantity { padding: 10px; background-color: #f9f9f9; border-radius: 5px; margin-right: 10px; text-align: center; }
+        .product-name { flex: 2; }
+        .product-price { flex: 1; }
+        .product-quantity { flex: 1; }
+        .product-quantity input { width: 100%; padding: 5px; border: 1px solid #ccc; border-radius: 4px; text-align: center; }
+        .pay-button { width: 100%; padding: 10px; background-color: #28a745; color: white; font-size: 16px; border: none; border-radius: 4px; cursor: pointer; }
+        .pay-button:hover { background-color: #218838; }
+        #qrcode { margin-top: 20px; text-align: center; }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <!-- Product Selection Section -->
+        <div class="product-selection">
+            <h2>Select Your Products</h2>
+            <div class="product-row">
+                <div class="product-name">Cold Drink</div>
+                <div class="product-price">$2.50</div>
+                <div class="product-quantity">
+                    <input type="number" class="quantity-input" min="0" value="0" data-price="2.50" onchange="updateTotal()">
+                </div>
+            </div>
+            <div class="product-row">
+                <div class="product-name">Snack Bar</div>
+                <div class="product-price">$3.00</div>
+                <div class="product-quantity">
+                    <input type="number" class="quantity-input" min="0" value="0" data-price="3.00" onchange="updateTotal()">
+                </div>
+            </div>
+            <div class="product-row">
+                <div class="product-name">Chips</div>
+                <div class="product-price">$1.50</div>
+                <div class="product-quantity">
+                    <input type="number" class="quantity-input" min="0" value="0" data-price="1.50" onchange="updateTotal()">
+                </div>
+            </div>
+        </div>
+
+        <!-- Order Summary -->
+        <div class="product-info">
+            <h2>Order Summary</h2>
+            <p><strong>Total Price:</strong> $<span id="total-price">0.00</span></p>
+        </div>
+
+    </div>
+
+    <!-- JavaScript to handle product selection and QR code generation -->
+    <script>
+        function updateTotal() {
+            const quantityInputs = document.querySelectorAll('.quantity-input');
+            let totalPrice = 0;
+
+            quantityInputs.forEach(input => {
+                const quantity = parseInt(input.value);
+                const price = parseFloat(input.getAttribute('data-price'));
+                totalPrice += quantity * price;
+            });
+
+            // Update the displayed total price
+            document.getElementById('total-price').textContent = totalPrice.toFixed(2);
+        }
+    </script>
+</body>
+</html>
