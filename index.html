@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vending Machine Product Selection</title>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
     <style>
         body { font-family: Arial, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; background-color: #f5f5f5; margin: 0; }
         .container { width: 500px; padding: 20px; background: white; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); }
@@ -89,15 +90,34 @@
         }
 
         function goToPayment() {
-            const totalPrice = document.getElementById('total-price').textContent;
+            const totalPrice = parseFloat(document.getElementById('total-price').textContent);
 
-            if (parseFloat(totalPrice) === 0) {
+            if (totalPrice === 0) {
                 alert("Please select at least one product.");
                 return;
             }
 
-            const url = `payment.html?totalPrice=${totalPrice}`;
-            window.location.href = url;
+            const options = {
+                key: "rzp_live_ZAyGN8uREZ3HAN", // Replace with your Razorpay key
+                amount: totalPrice * 100, // Amount in paise
+                currency: "INR",
+                name: "Vending Machine",
+                description: "Purchase",
+                handler: function (response) {
+                    alert(`Payment Successful! Payment ID: ${response.razorpay_payment_id}`);
+                },
+                prefill: {
+                    name: "Bipul Raj",
+                    email: "bipulraj.great@gmail.com",
+                    contact: "9341317998"
+                },
+                theme: {
+                    color: "#28a745"
+                }
+            };
+
+            const razorpay = new Razorpay(options);
+            razorpay.open();
         }
     </script>
 </body>
