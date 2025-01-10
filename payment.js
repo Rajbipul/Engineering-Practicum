@@ -14,7 +14,7 @@ window.goToPayment = function () {
     }
 
     const options = {
-        key: "YOUR_RAZORPAY_KEY",
+        key: "rzp_live_ZAyGN8uREZ3HAN",//rzp_live_ZAyGN8uREZ3HAN
         amount: amount * 100,
         currency: "INR",
         name: "Vending Machine",
