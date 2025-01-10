@@ -1,0 +1,152 @@
+body {
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: linear-gradient(to bottom, #f1f4f9, #dff1f9);
+  margin: 0;
+}
+
+.container {
+  width: 500px;
+  padding: 20px;
+  background: white;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+h2 {
+  color: #007bff;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.product-row {
+  display: flex;
+  align-items: center;
+  margin: 10px 0;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background-color: #f9f9f9;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.product-row:hover {
+  transform: scale(1.02);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.product-image {
+  width: 80px;
+  height: 80px;
+  margin-right: 10px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid #ddd; /* Thin border added */
+}
+
+.product-name {
+  flex: 2;
+  font-weight: bold;
+  color: #333;
+}
+
+.product-price {
+  flex: 1;
+  color: #28a745;
+  font-weight: bold;
+  text-align: center;
+}
+
+.product-quantity {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+}
+
+.quantity-button {
+  width: 35px;
+  height: 35px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.quantity-button:hover {
+  background-color: #0056b3;
+  transform: scale(1.1);
+}
+
+.quantity-input {
+  width: 40px;
+  text-align: center;
+  font-size: 16px;
+  margin: 0 10px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  background-color: #f1f4f9;
+}
+
+.pay-button {
+  width: 100%;
+  padding: 15px;
+  background-color: #28a745;
+  color: white;
+  font-size: 18px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-top: 20px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.pay-button:hover {
+  background-color: #218838;
+  transform: translateY(-2px);
+}
+
+.user-info {
+  margin-top: 20px;
+}
+
+.user-info label {
+  display: block;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+.user-info input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+#total-price {
+  color: #dc3545;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
