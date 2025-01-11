@@ -1,7 +1,7 @@
 window.goToPayment = function () {
     const name = document.getElementById("name").value.trim();
     const phone = document.getElementById("phone").value.trim();
-    const amount = 500.00;
+    const amount = totalPrice;
 
     if (!name) {
         alert("Please enter your name.");
