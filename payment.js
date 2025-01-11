@@ -1,7 +1,12 @@
 window.goToPayment = function () {
     const name = document.getElementById("name").value.trim();
     const phone = document.getElementById("phone").value.trim();
-    const amount = totalPrice;
+    const totalPrice = parseFloat(document.getElementById('total-price').textContent) * 100; // convert to paise
+
+    if (totalPrice === 0) {
+        alert("Please select at least one product.");
+        return;
+    }
 
     if (!name) {
         alert("Please enter your name.");
@@ -15,7 +20,7 @@ window.goToPayment = function () {
 
     const options = {
         key: "rzp_live_ZAyGN8uREZ3HAN",//rzp_live_ZAyGN8uREZ3HAN
-        amount: amount * 100,
+        amount: totalPrice,
         currency: "INR",
         name: "Vending Machine",
         description: "Payment for selected products",
