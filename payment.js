@@ -28,12 +28,7 @@ window.goToPayment = function () {
             name: name,
             contact: phone,
         },
-        handler: function (response) {
-            const paymentId = response.razorpay_payment_id;
-            const message = `Payment Successful!%0AName: ${name}%0APayment ID: ${paymentId}%0AAmount Paid: Rs ${amount.toFixed(2)}%0AEnjoy your products!`;
-            const whatsappURL = `https://wa.me/91${phone}?text=${message}`;
-            window.open(whatsappURL, "_blank");
-        },
+        
         theme: {
             color: "#007bff",
         },
