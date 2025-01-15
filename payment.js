@@ -19,7 +19,7 @@ window.goToPayment = function () {
     }
 
     const options = {
-        key: "rzp_live_ZAyGN8uREZ3HAN",//rzp_live_ZAyGN8uREZ3HAN
+        key: "rzp_test_p7oleGr9Xev6y9",//rzp_live_ZAyGN8uREZ3HAN
         amount: totalPrice,
         currency: "INR",
         name: "Vending Machine",
