@@ -48,19 +48,33 @@ window.goToPayment = function () {
         },
         handler: function (response) {
             selectedItems.forEach(itemId => {
-                const entry = {
-                    item: itemId,
-                    quantity: 1,
-                    name: name,
-                    phone: phone,
-                    payment_id: response.razorpay_payment_id,
-                    timestamp: Date.now()
-                };
+    const quantity = 1; // or get quantity dynamically
 
-                database.ref('vend').push(entry)
-                    .then(() => console.log("✅ Data saved to Firebase!"))
-                    .catch(err => console.error("❌ Firebase error:", err));
-            });
+    const data = {
+        item: itemId,
+        quantity: quantity,
+        name: name,
+        phone: phone,
+        payment_id: response.razorpay_payment_id,
+        timestamp: Date.now()
+    };
+
+    console.log("Sending data to Firebase:", data); // ✅ Log before sending
+
+    fetch("https://vending-machine-97f0e-default-rtdb.firebaseio.com/vend.json", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data) // ✅ Always stringify
+    })
+    .then(res => {
+        if (!res.ok) throw new Error("Failed to post to Firebase");
+        return res.json();
+    })
+    .then(result => console.log("✅ Firebase success:", result))
+    .catch(err => console.error("❌ Firebase error:", err));
+});
 
             alert(`✅ Payment successful! Transaction ID: ${response.razorpay_payment_id}`);
         },
