@@ -56,17 +56,33 @@ window.goToPayment = function () {
             color: "#007bff",
         },
         handler: function(response) {
-            selectedItems.forEach(itemId => {
-                const quantity = 1; // Replace this if user selects quantity
-                sendToFirebase(itemId, quantity);
-            });
-            
-            // Show success message
-            alert(`Payment successful! Transaction ID: ${response.razorpay_payment_id}`);
-            
-            // Optional: Redirect or reset form
-            // window.location.href = "success.html";
-        },
+    selectedItems.forEach(itemId => {
+        const quantity = 1;
+
+        // 🔍 Log what we are about to send
+        console.log("Sending to Firebase:", itemId, quantity);
+
+        fetch("https://vending-machine-97f0e-default-rtdb.firebaseio.com/vend.json", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                item: itemId,
+                quantity: quantity,
+                name: name,
+                phone: phone,
+                payment_id: response.razorpay_payment_id,
+                timestamp: Date.now()
+            })
+        })
+        .then(res => res.json())
+        .then(data => console.log("✅ Data sent to Firebase:", data))
+        .catch(err => console.error("❌ Error sending to Firebase:", err));
+    });
+
+    alert(`Payment successful! Transaction ID: ${response.razorpay_payment_id}`);
+},
         modal: {
             ondismiss: function() {
                 // Optional: Handle when user closes the payment form
