@@ -57,9 +57,9 @@ window.goToPayment = function () {
             color: "#007bff",
         },
         handler: function(response) {
-            // Payment succeeded - notify ESP32 for each selected item
             selectedItems.forEach(itemId => {
-                activateServo(itemId);
+                const quantity = 1; // Replace this if user selects quantity
+                sendToFirebase(itemId, quantity);
             });
             
             // Show success message
