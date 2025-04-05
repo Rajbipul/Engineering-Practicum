@@ -1,53 +1,38 @@
+const firebaseConfig = {
+  apiKey: "YOUR_API_KEY",
+  authDomain: "vending-machine-97f0e.firebaseapp.com",
+  databaseURL: "https://vending-machine-97f0e-default-rtdb.firebaseio.com",
+  projectId: "vending-machine-97f0e",
+  storageBucket: "vending-machine-97f0e.appspot.com",
+  messagingSenderId: "YOUR_SENDER_ID",
+  appId: "YOUR_APP_ID"
+};
+
+firebase.initializeApp(firebaseConfig);
+const database = firebase.database();
+
 window.goToPayment = function () {
     const name = document.getElementById("name").value.trim();
     const phone = document.getElementById("phone").value.trim();
-    const totalPrice = parseFloat(document.getElementById('total-price').textContent) * 100; // convert to paise
-    
-    // Get selected items (assuming checkboxes with class 'product-checkbox')
+    const totalPrice = parseFloat(document.getElementById('total-price').textContent) * 100;
+
     const selectedItems = [];
     document.querySelectorAll('.product-checkbox:checked').forEach(checkbox => {
-        selectedItems.push(checkbox.value); // assuming value="1", "2", "3" etc.
+        selectedItems.push(checkbox.value);
     });
 
-    // Validation
     if (totalPrice === 0) {
         alert("Please select at least one product.");
         return;
     }
 
-    if (!name) {
-        alert("Please enter your name.");
+    if (!name || !/^\d{10}$/.test(phone)) {
+        alert("Please enter a valid name and 10-digit phone number.");
         return;
     }
 
-    if (!/^\d{10}$/.test(phone)) {
-        alert("Please enter a valid 10-digit mobile number.");
-        return;
-    }
-
-    function sendToFirebase(itemId, quantity) {
-        const firebaseURL = "https://vending-machine-97f0e-default-rtdb.firebaseio.com/vend.json";
-        const data = {
-        item: itemId,
-        quantity: quantity,
-        timestamp: Date.now()
-    };
-
-    fetch(firebaseURL, {
-    method: "POST",
-    headers: {
-        "Content-Type": "application/json"
-    },
-    body: JSON.stringify(data)
-})
-
-    .then(res => res.json())
-    .then(res => console.log("Sent to Firebase:", res))
-    .catch(err => console.error("Error sending to Firebase:", err));
-}
-    
     const options = {
-        key: "rzp_test_p7oleGr9Xev6y9", // Test key - replace with live key for production
+        key: "rzp_test_p7oleGr9Xev6y9",
         amount: totalPrice,
         currency: "INR",
         name: "Vending Machine",
@@ -59,43 +44,31 @@ window.goToPayment = function () {
         theme: {
             color: "#007bff",
         },
-        handler: function(response) {
-    selectedItems.forEach(itemId => {
-        const quantity = 1;
+        handler: function (response) {
+            selectedItems.forEach(itemId => {
+                const entry = {
+                    item: itemId,
+                    quantity: 1,
+                    name: name,
+                    phone: phone,
+                    payment_id: response.razorpay_payment_id,
+                    timestamp: Date.now()
+                };
 
-        // 🔍 Log what we are about to send
-        console.log("Sending to Firebase:", itemId, quantity);
+                database.ref('vend').push(entry)
+                    .then(() => console.log("✅ Data saved to Firebase!"))
+                    .catch(err => console.error("❌ Firebase error:", err));
+            });
 
-        fetch("https://vending-machine-97f0e-default-rtdb.firebaseio.com/vend.json", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                item: itemId,
-                quantity: quantity,
-                name: name,
-                phone: phone,
-                payment_id: response.razorpay_payment_id,
-                timestamp: Date.now()
-            })
-        })
-        .then(res => res.json())
-        .then(data => console.log("✅ Data sent to Firebase:", data))
-        .catch(err => console.error("❌ Error sending to Firebase:", err));
-    });
-
-    alert(`Payment successful! Transaction ID: ${response.razorpay_payment_id}`);
-},
+            alert(`✅ Payment successful! Transaction ID: ${response.razorpay_payment_id}`);
+        },
         modal: {
-            ondismiss: function() {
-                // Optional: Handle when user closes the payment form
+            ondismiss: function () {
                 console.log("Payment window closed");
             }
         }
     };
 
-    const razorpay = new Razorpay(options);
-    console.log("Opening Razorpay payment window with:", options);
-    razorpay.open();
+    const rzp = new Razorpay(options);
+    rzp.open();
 };
