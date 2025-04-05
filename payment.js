@@ -34,7 +34,7 @@ window.goToPayment = function () {
     };
 
     fetch(firebaseURL, {
-        method: "PUT",  // Use POST if you want to store multiple entries
+        method: "POST",  // Use POST if you want to store multiple entries
         body: JSON.stringify(data)
     })
     .then(res => res.json())
