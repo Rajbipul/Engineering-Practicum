@@ -34,9 +34,13 @@ window.goToPayment = function () {
     };
 
     fetch(firebaseURL, {
-        method: "POST",  // Use POST if you want to store multiple entries
-        body: JSON.stringify(data)
-    })
+    method: "POST",
+    headers: {
+        "Content-Type": "application/json"
+    },
+    body: JSON.stringify(data)
+})
+
     .then(res => res.json())
     .then(res => console.log("Sent to Firebase:", res))
     .catch(err => console.error("Error sending to Firebase:", err));
@@ -92,5 +96,6 @@ window.goToPayment = function () {
     };
 
     const razorpay = new Razorpay(options);
+    console.log("Opening Razorpay payment window with:", options);
     razorpay.open();
 };
