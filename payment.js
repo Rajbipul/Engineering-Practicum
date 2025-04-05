@@ -25,6 +25,24 @@ window.goToPayment = function () {
         return;
     }
 
+    function sendToFirebase(itemId, quantity) {
+    const firebaseURL = "https://vending-machine-97f0e-default-rtdb.firebaseio.com/vend.json";
+
+    const data = {
+        item: itemId,
+        quantity: quantity,
+        timestamp: Date.now()
+    };
+
+    fetch(firebaseURL, {
+        method: "PUT",  // Use POST if you want to store multiple entries
+        body: JSON.stringify(data)
+    })
+    .then(res => res.json())
+    .then(res => console.log("Sent to Firebase:", res))
+    .catch(err => console.error("Error sending to Firebase:", err));
+}
+
     const options = {
         key: "rzp_test_p7oleGr9Xev6y9", // Test key - replace with live key for production
         amount: totalPrice,
@@ -61,26 +79,3 @@ window.goToPayment = function () {
     const razorpay = new Razorpay(options);
     razorpay.open();
 };
-
-// Function to activate servo on ESP32
-function activateServo(itemId) {
-    // Replace with your ESP32's IP address
-    const esp32IP = "192.168.103.159"; 
-    
-    fetch(`http://${esp32IP}/payment-success?item=${itemId}`, {
-        method: 'GET',
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        return response.text();
-    })
-    .then(data => {
-        console.log(`Servo ${itemId} activated:`, data);
-    })
-    .catch(error => {
-        console.error('Error activating servo:', error);
-        // Optional: Show error to user or retry
-    });
-}
