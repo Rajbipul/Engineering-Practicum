@@ -28,39 +28,20 @@ window.goToPayment = function () {
     function sendToFirebase(itemId, quantity) {
         const firebaseURL = "https://vending-machine-97f0e-default-rtdb.firebaseio.com/vend.json";
         const data = {
-            item: itemId,
-            quantity: quantity,
-            timestamp: Date.now()
-        };
-        
-        /*fetch(firebaseURL, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(data)
-        })
-            .then(res => res.json())
-            .then(res => console.log("✅ Sent to Firebase:", res))
-            .catch(err => console.error("❌ Error sending to Firebase:", err));*/
-        fetch("https://vending-machine-97f0e-default-rtdb.firebaseio.com/vend.json", {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json"
-  },
-  body: JSON.stringify({
-    item: 2,
-    quantity: 1,
-    time: Date.now()
-  })
-})
-.then(res => res.json())
-.then(data => console.log("✅ Firebase success:", data))
-.catch(err => console.error("❌ Firebase error:", err));
+        item: itemId,
+        quantity: quantity,
+        timestamp: Date.now()
+    };
 
-    }
-
-
+    fetch(firebaseURL, {
+        method: "PUT",  // Use POST if you want to store multiple entries
+        body: JSON.stringify(data)
+    })
+    .then(res => res.json())
+    .then(res => console.log("Sent to Firebase:", res))
+    .catch(err => console.error("Error sending to Firebase:", err));
+}
+    
     const options = {
         key: "rzp_test_p7oleGr9Xev6y9", // Test key - replace with live key for production
         amount: totalPrice,
